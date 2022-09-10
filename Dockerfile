@@ -7,7 +7,7 @@ ENV FLASK_APP="booksyAPI"
 ENV FLASK_DEBUG="False"
 ENV BOOKSYAPI_BUSREF="463431"
 ENV BOOKSYAPI_PROXY="True"
-ENV SERVER_NAME="booksyAPItest.com"
+#E NV SERVER_NAME="booksyAPItest.com"
 # Following NEEDS to be changed - use: python -c 'import secrets; print(secrets.token_hex())'
 ENV SECRET_KEY="CHANGEME"  
 EXPOSE 5000
