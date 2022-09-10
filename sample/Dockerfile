@@ -11,8 +11,8 @@ ENV BOOKSYAPI_PROXY="True"
 ENV SERVER_NAME="booksyAPItest.com"
 # Following NEEDS to be changed - use: python -c 'import secrets; print(secrets.token_hex())'
 ENV SECRET_KEY="CHANGEME"  
-#COPY ../booksyAPI/dist/booksyAPI-1.0-py3-none-any.whl .
-#RUN pip install ./booksyAPI-1.0-py3-none-any.whl
+# COPY ../booksyAPI/dist/booksyAPI-1.0-py3-none-any.whl .
+# RUN pip install ./booksyAPI-1.0-py3-none-any.whl
 COPY ../booksyAPI .
 RUN pip install -e booksyAPI
 EXPOSE 5000
