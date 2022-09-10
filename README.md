@@ -76,11 +76,22 @@ This is not what is going on in the `Quickstart production docker-compose exampl
 Exposes following endpoint where you can GET reviews
 > localhost:5000/booksyreviews
 ## Docker run
-- Remember: set the appropriate env vars in `docker run` command
-```
-    docker build https://github.com/RT-Tap/booksyCORSproxy.git#main -t booksyproxy/mydomain:1.0
+1. Build image (choose one)
+    - remotely
+        - ```
+            docker build https://github.com/RT-Tap/booksyCORSproxy.git#main -t booksyproxy/mydomain:1.0  
+            ```  
+    - Locally
+        - ```  
+            docker build . -t booksyproxy/mydomain:1.0  
+            ```  
+  
+2. Run image    
+    - Remember: set the appropriate env vars in `docker run` command
+    ```
     docker run -d -e BOOKSYAPI_BUSREF=123456 -e BOOKSYAPI_PROXY=False -e SERVER_NAME=booksyAPItest.com -e SECRET_KEY=123456789CHANGETHIS -p 5000:5000 booksyproxy/mydomain:1.0
-```
+    ```
+
 ### 
 
 ## docker-compose
