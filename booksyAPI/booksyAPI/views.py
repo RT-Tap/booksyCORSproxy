@@ -52,7 +52,7 @@ async def get_reviews_development():
     return True, contents
 
 if __name__ == '__main__':
-    if os.getenv("DEBUG_SERVER", "Flask") == "Waitress":
+    if os.getenv("booksyAPI_DEBUGSERVER", "Flask") == "Waitress":
         from waitress import serve
         serve(app, host="0.0.0.0", port=5000)
     else:
