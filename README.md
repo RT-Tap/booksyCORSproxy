@@ -64,12 +64,15 @@ Provides a local REST API endpoint (domain/api/booksyreviews) to retrieve and di
 ---
 
 # Production
+Exposes following endpoint where you can GET reviews
+> localhost:5000/api/booksyreviews
 ## Docker run
 - Remember: set the appropriate env vars in `docker run` command
 ```
-    docker build -t booksyproxy/mydomain:1.0 https://github.com/RT-Tap/booksyCORSproxy.git#:sample 
+    docker build -t booksyproxy/mydomain:1.0 https://github.com/RT-Tap/booksyCORSproxy.git
     docker run -d -e BOOKSYAPI_BUSREF=123456 -e BOOKSYAPI_PROXY=False -e SERVER_NAME=booksyAPItest.com -e SECRET_KEY=123456789CHANGETHIS -p 5000:5000 booksyproxy/mydomain:1.0
 ```
+### 
 
 ## docker-compose
 1. clone repo
@@ -82,7 +85,28 @@ Provides a local REST API endpoint (domain/api/booksyreviews) to retrieve and di
 ## Module
 1. set mandatory env vars 
 2. install package
-3.     waitress-serve --port=5000 booksyAPI:app  
+    ```
+    pip install -e booksyAPI
+    ```
+3. start server
+    ```
+    waitress-serve --port=5000 booksyAPI:app 
+    ```
+## Wheel package
+1. set mandatory env vars 
+1. create wheel package
+    ```
+    cd booksyAPI
+    python setup.py bdist_wheel
+    ```
+3. install wheel package
+    ```
+    pip install dist/booksyAPI-1.0-py3-none-any.whl
+    ```
+3. Start Server
+    ```
+    waitress-serve --port=5000 booksyAPI:app
+    ```
 
 ---
 # Development

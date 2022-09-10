@@ -24,7 +24,7 @@ services:
       network: host # needed for pip installl - https://docs.docker.com/compose/compose-file/compose-file-v3/#network
     restart: always
     env_file:
-      - sample/booksyProxy.env
+      - booksyProxy.env
     #environment: # instead of using a file can list all env vars here
     #  - name=value
     volumes:  # not really needed just an example of the JSON to be expected or for working offline
