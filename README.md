@@ -69,7 +69,7 @@ Exposes following endpoint where you can GET reviews
 ## Docker run
 - Remember: set the appropriate env vars in `docker run` command
 ```
-    docker build -t booksyproxy/mydomain:1.0 https://github.com/RT-Tap/booksyCORSproxy.git
+    docker build https://github.com/RT-Tap/booksyCORSproxy.git#main -t booksyproxy/mydomain:1.0
     docker run -d -e BOOKSYAPI_BUSREF=123456 -e BOOKSYAPI_PROXY=False -e SERVER_NAME=booksyAPItest.com -e SECRET_KEY=123456789CHANGETHIS -p 5000:5000 booksyproxy/mydomain:1.0
 ```
 ### 
