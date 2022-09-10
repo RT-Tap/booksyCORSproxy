@@ -18,9 +18,9 @@ if os.getenv("FLASK_DEBUG", True) == "False":
         ENV='production',
         TESTING=False,
         SECRET_KEY=os.getenv("SECRET_KEY", "DEFAULT-CHANGEME"),  # to get your own run: python -c 'import secrets; print(secrets.token_hex())'
-        SERVER_NAME=os.getenv("SERVER_NAME", "booksyAPItest.com"), 
         APPLICATION_ROOT='/api',
     )
+    if os.getenv("SERVER_NAME"): app.config.update( SERVER_NAME=os.getenv("SERVER_NAME"))
     CORS(app, resources={r"*": {"origins": os.getenv("SERVER_NAME")}})
     logger.info("Starting app in production mode")
 else:
