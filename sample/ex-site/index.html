@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="module" src="./booksyreviews.js"></script>
+    <style>
+        .booksy-testimonials{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding-top: 2%;
+        }
+        .booksycard{
+            width: 20%;
+            height: 100%;
+            border: 2px solid black;
+            background-color: white;
+        }
+        .card-content{
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .star-rating-container{
+            width: 100%;
+            display: flex;
+            justify-content: space-evenly;
+        }
+        .comment{
+            overflow: auto;
+            height: fit-content;
+        }
+    </style>
+</head>
+<body>
+    <div class="booksy-testimonials">
+        <div class="card" id="card1">
+            <div class="card-content">
+                <div class="star-rating-container">
+                    <p id="star1">&#9733;</p> 
+                    <p id="star2">&#9733;</p>
+                    <p id="star3">&#9733;</p>
+                    <p id="star4">&#9733;</p>
+                    <p id="star5">&#9734;</p>
+                </div>
+                <div class="comment">
+                    <p>Lorem ipsum dolor sit amet consectetur, </p>
+                </div>
+                <div class="reviewer-name">
+                    <h3>joe smith</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div><h1>How to get business refrence ID required for enviroment variable </h1></br><img src="./booksy-business-pic.png"> </div>
+</body>
+</html>

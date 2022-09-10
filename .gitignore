@@ -1,0 +1,6 @@
+booksyAPI/*
+!booksyAPI/setup.py
+!booksyAPI/booksyAPI
+booksyAPI/booksyAPI/*
+!booksyAPI/booksyAPI/__init__.py
+!booksyAPI/booksyAPI/views.py

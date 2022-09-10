@@ -1,0 +1,52 @@
+version: "3.8"
+services:
+  reverse-proxy:
+    container_name: reverseProxy
+    image: httpd:2.4-alpine
+    ports: 
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "./ex-conf/httpd-revproxy.conf:/usr/local/apache2/conf/httpd.conf"
+      - "./ex-conf/httpd-vhosts.conf:/usr/local/apache2/conf/extra/httpd-vhosts.conf:ro"
+      - "./ex-conf/ssl/server.crt:/usr/local/apache2/conf/server.crt:ro"
+      - "./ex-conf/ssl/server.key:/usr/local/apache2/conf/server.key:ro"
+    restart: always
+    networks:
+      default:
+        ipv4_address: 172.16.0.8
+
+  cb-api-wsgi:
+    container_name: booksyReviewsAPI
+    build:
+      context: ../
+      dockerfile: sample/Dockerfile
+      network: host # needed for pip installl - https://docs.docker.com/compose/compose-file/compose-file-v3/#network
+    restart: always
+    env_file:
+      - booksyProxy.env
+    #environment: # instead of using a file can list all env vars here
+    #  - name=value
+    volumes:  # not really needed just an example of the JSON to be expected or for working offline
+      - "./ex-JSON/samplereviews.txt:/usr/src/app/samplereviews.txt"
+    networks:
+      default:
+        ipv4_address: 172.16.0.26
+
+  httpd-apache:
+    container_name: httpd
+    image: httpd:2.4-alpine
+    volumes:
+      - "./ex-conf/httpd-samplesite.conf:/usr/local/apache2/conf/httpd.conf:ro"
+      - "./ex-site/:/usr/local/apache2/htdocs/" 
+    restart: always
+    networks:
+      default:
+        ipv4_address: 172.16.0.25
+
+networks:
+    default:
+      ipam:
+        driver: default
+        config:
+          - subnet: '172.16.0.0/16'
