@@ -11,7 +11,7 @@ ENV BOOKSYAPI_PROXY="True"
 ENV SERVER_NAME="booksyAPItest.com"
 # Following NEEDS to be changed - use: python -c 'import secrets; print(secrets.token_hex())'
 ENV SECRET_KEY="CHANGEME"  
-COPY booksyAPI .
+COPY ./booksyAPI .
 RUN pip install -e booksyAPI
 EXPOSE 5000
 CMD ["waitress-serve", "--port=5000", "booksyAPI:app"]
