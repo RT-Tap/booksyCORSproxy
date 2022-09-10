@@ -43,8 +43,8 @@ async def get_reviews():
         else: 
             return True, r.text
     else:
-        logger.warning('Error retreiving reviews from Booksy')
-        return False, f"Error retreiving reviews- Remote status code:{r.status_code}"
+        logger.warning('Error retreiving reviews from Booksy, 6-digit business refrence code may be wrong ')
+        return False, f"Error retreiving reviews, 6-digit business refrence code may be wrong - Remote status code:{r.status_code}"
 
 async def get_reviews_development():
     f = open("./sample/samplereviews.txt", 'r')  # regex find [^\x00-\x7F]+ to remove unicode
@@ -57,4 +57,4 @@ if __name__ == '__main__':
         serve(app, host="0.0.0.0", port=5000)
     else:
         import asyncio
-        asyncio.run(app.run(debug=True))
+        asyncio.run(app.run(debug=os.getenv("FLASK_DEBUG", False)))

@@ -1,6 +1,14 @@
 # booksy CORS proxy 
 Provides a local REST API endpoint (domain/api/booksyreviews) to retrieve and display booksy reviews on your website circumnavigating their CORS policy
 
+For most of these "production ready" examples your encpoint for retreiving the reviews will be:  
+> localhost:5000/booksyreviews
+
+However the package is set up so that in the case this is used/integrated with another flask app this application will be behind the root path "/borev_api" therefore your reviews will be found under
+> localhost:5000/boorev_api/booksyreviews  
+
+This is not what is going on in the `Quickstart production docker-compose example`, the reverse proxy takes care of of routing the /api path in that situation (mechanics of reverse proxy routing can be seen under sample/ex-conf/httpd-vhosts.conf).  More information about dispatching under different root path:  https://flask.palletsprojects.com/en/2.1.x/patterns/appdispatch/#dispatch-by-path
+
 ---
 ## Install package
 - #### From source:
@@ -30,10 +38,11 @@ Provides a local REST API endpoint (domain/api/booksyreviews) to retrieve and di
 - SECRET_KEY: used for encryption NEEDS to be changed to a random 24 byte string - can use following command to generate a random key : python -c 'import secrets; print(secrets.token_hex())'
 
 ### development / optional
-- FLASK_APP: booksyAPI
+- ROOT_PATH: default=boorev_api - Unless you are integrating with another flask app you dont need to worry about this
 - FLASK_DEBUG: True/False - If you are in development True, production False - IMPORTANT! Used to set our own CORS policy
 - booksyAPI_DEBUGSERVER: Flask/Waitress (optional, defaults: development=Flask production=waitress)
 - DEBUG_LOCALONLY: True/Flase - when set to true will ONLY retrieve local example reviews (located in sample/samplereviews.txt ) usefull if you plan on working in a live environment constantly reloading/refreshing and therefore repeatedly requesting the same data from booksy but don't want to hit their request limits/raise suspicion
+- FLASK_APP: booksyAPI - will most likely never change, used to let know server what application to run
 
 #### How/Where do I set environment variables?
 >|  Linux/iOS: |  Windows powershell: |   Windows cmd: |  (ana)conda: |  Docker: |
@@ -65,7 +74,7 @@ Provides a local REST API endpoint (domain/api/booksyreviews) to retrieve and di
 
 # Production
 Exposes following endpoint where you can GET reviews
-> localhost:5000/api/booksyreviews
+> localhost:5000/booksyreviews
 ## Docker run
 - Remember: set the appropriate env vars in `docker run` command
 ```
