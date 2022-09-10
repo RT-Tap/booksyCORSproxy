@@ -8,33 +8,32 @@ Provides a local REST API endpoint (domain/api/booksyreviews) to retrieve and di
     pip install -e booksyAPI
     ```
 - #### From distributable via source:
-    ```bash
-    cd booksyAPI
-    python setup.py bdist_wheel
-    pip install dist/booksyAPI-1.0-py3-none-any.whl
-    ```
+    - clone repo
+    - ```bash
+        cd booksyAPI
+        python setup.py bdist_wheel
+        pip install dist/booksyAPI-1.0-py3-none-any.whl
+        ```
 - #### From download release/package: 
-    ```bash
-    pip install booksyAPI-1.0-py3-none-any.whl
-    ```
-  
-  
-  
-  
+    - Get latest release from: https://github.com/RT-Tap/booksyCORSproxy/releases
+    - ```bash
+        pip install booksyAPI-1.0-py3-none-any.whl
+        ```  
+
 ---
 
 ## Environment Variables
 ### production / mandatory
-> - BOOKSYAPI_BUSREF:  The 6 digit ID of the business you want reviews for, See "Booksy Business Refrence/ID Number" section below
-> - BOOKSYAPI_PROXY: True/False - Will this be behind a reverse proxy?
-> - SERVER_NAME:  URL endpoint of website you intend to use this on eg. "booksyAPItest.com" - used to set our own CORS policy during production
-> - SECRET_KEY: used for encryption NEEDS to be changed to a random 24 byte string - can use following command to generate a random key : python -c 'import secrets; print(secrets.token_hex())'
+- BOOKSYAPI_BUSREF:  The 6 digit ID of the business you want reviews for, See "Booksy Business Refrence/ID Number" section below
+- BOOKSYAPI_PROXY: True/False - Will this be behind a reverse proxy?
+- SERVER_NAME:  URL endpoint of website you intend to use this on eg. "booksyAPItest.com" - used to set our own CORS policy during production
+- SECRET_KEY: used for encryption NEEDS to be changed to a random 24 byte string - can use following command to generate a random key : python -c 'import secrets; print(secrets.token_hex())'
 
 ### development / optional
-> - FLASK_APP: booksyAPI
-> - FLASK_DEBUG: True/False - If you are in development True, production False - IMPORTANT! Used to set our own CORS policy
-> - booksyAPI_DEBUGSERVER: Flask/Waitress (optional, defaults: development=Flask production=waitress)
-> - DEBUG_LOCALONLY: True/Flase - when set to true will ONLY retrieve local example reviews (located in sample/samplereviews.txt ) usefull if you plan on working in a live environment constantly reloading/refreshing and therefore repeatedly requesting the same data from booksy but don't want to hit their request limits/raise suspicion
+- FLASK_APP: booksyAPI
+- FLASK_DEBUG: True/False - If you are in development True, production False - IMPORTANT! Used to set our own CORS policy
+- booksyAPI_DEBUGSERVER: Flask/Waitress (optional, defaults: development=Flask production=waitress)
+- DEBUG_LOCALONLY: True/Flase - when set to true will ONLY retrieve local example reviews (located in sample/samplereviews.txt ) usefull if you plan on working in a live environment constantly reloading/refreshing and therefore repeatedly requesting the same data from booksy but don't want to hit their request limits/raise suspicion
 
 #### How/Where do I set environment variables?
 >|  Linux/iOS: |  Windows powershell: |   Windows cmd: |  (ana)conda: |  Docker: |
@@ -66,6 +65,7 @@ Provides a local REST API endpoint (domain/api/booksyreviews) to retrieve and di
 
 # Production
 ## Docker run
+- Remember: set the appropriate env vars in `docker run` command
 ```
     docker build -t booksyproxy/mydomain:1.0 https://github.com/RT-Tap/booksyCORSproxy.git#:sample 
     docker run -d -e BOOKSYAPI_BUSREF=123456 -e BOOKSYAPI_PROXY=False -e SERVER_NAME=booksyAPItest.com -e SECRET_KEY=123456789CHANGETHIS -p 5000:5000 booksyproxy/mydomain:1.0
