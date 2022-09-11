@@ -68,7 +68,9 @@ This is not what is going on in the `Quickstart production docker-compose exampl
 >    cd samples
 >    docker-compose up -d 
 >    ```
->4. > booksyAPItest.com
+>4. > booksyAPItest.com  
+
+### **NOTE:** you must create/get your own ssl cert and use it in the reverse proxy container. This sample uses a signed ssl cert that is publicly available and not for your domain 
 
 ---
 
