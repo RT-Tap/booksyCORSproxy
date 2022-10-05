@@ -13,20 +13,21 @@ This is not what is going on in the `Quickstart production docker-compose exampl
 ## Install package
 - #### From source:
     ```bash
+    git clone https://github.com/RT-Tap/booksyCORSproxy
     pip install -e booksyAPI
     ```
-- #### From distributable via source:
-    - clone repo
-    - ```bash
-        cd booksyAPI
-        python setup.py bdist_wheel
-        pip install dist/booksyAPI-1.0-py3-none-any.whl
-        ```
+- #### From source and Create Redistributable Package:
+    ```bash
+    git clone https://github.com/RT-Tap/booksyCORSproxy
+    cd booksyAPI
+    python setup.py bdist_wheel
+    pip install dist/booksyAPI-1.0-py3-none-any.whl
+    ```
 - #### From download release/package: 
     - Get latest release from: https://github.com/RT-Tap/booksyCORSproxy/releases
-    - ```bash
-        pip install booksyAPI-1.0-py3-none-any.whl
-        ```  
+    ```bash
+    pip install booksyAPI-1.0-py3-none-any.whl
+    ```  
 
 ---
 
@@ -77,58 +78,57 @@ This is not what is going on in the `Quickstart production docker-compose exampl
 # Production
 Exposes following endpoint where you can GET reviews
 > localhost:5000/booksyreviews
-## Docker run
-1. Build image (choose one)
-    - remotely
-        - ```
-            docker build https://github.com/RT-Tap/booksyCORSproxy.git#main -t booksyproxy/mydomain:1.0  
-            ```  
-    - Locally
-        - ```  
-            docker build . -t booksyproxy/mydomain:1.0  
-            ```  
-  
-2. Run image    
-    - Remember: set the appropriate env vars in `docker run` command
-    ```
-    docker run -d -e BOOKSYAPI_BUSREF=123456 -e BOOKSYAPI_PROXY=False -e SERVER_NAME=booksyAPItest.com -e SECRET_KEY=123456789CHANGETHIS -p 5000:5000 booksyproxy/mydomain:1.0
-    ```
+- ## Docker run
+    1. Build image (choose one)
+        - remotely
+            - ```
+                docker build https://github.com/RT-Tap/booksyCORSproxy.git#main -t booksyproxy/mydomain:1.0  
+                ```  
+        - Locally
+            - ```  
+                docker build . -t booksyproxy/mydomain:1.0  
+                ```  
+    
+    2. Run image    
+        - Remember: set the appropriate env vars in `docker run` command
+        ```
+        docker run -d -e BOOKSYAPI_BUSREF=123456 -e BOOKSYAPI_PROXY=False -e SERVER_NAME=booksyAPItest.com -e SECRET_KEY=123456789CHANGETHIS -p 5000:5000 booksyproxy/mydomain:1.0
+        ```
 
-### 
 
-## docker-compose
-1. clone repo
-2. set mandatory env vars in booksyProxy.env
-3. ``` 
-    cd sample 
-    docker-compose up -d  
-    ```  
+- ## docker-compose
+        git clone https://github.com/RT-Tap/booksyCORSproxy
 
-## Module
-1. set mandatory env vars 
-2. install package
-    ```
-    pip install -e booksyAPI
-    ```
-3. start server
-    ```
-    waitress-serve --port=5000 booksyAPI:app 
-    ```
-## Wheel package
-1. set mandatory env vars 
-1. create wheel package
-    ```
-    cd booksyAPI
-    python setup.py bdist_wheel
-    ```
-3. install wheel package
-    ```
-    pip install dist/booksyAPI-1.0-py3-none-any.whl
-    ```
-3. Start Server
-    ```
-    waitress-serve --port=5000 booksyAPI:app
-    ```
+    Set environment variables in sample/booksyProxy.env
+
+        cd sample 
+        docker-compose up -d  
+
+- ## Module
+    1. set mandatory env vars 
+    2. install package
+        ```
+        pip install -e booksyAPI
+        ```
+    3. start server
+        ```
+        waitress-serve --port=5000 booksyAPI:app 
+        ```
+- ## Wheel package
+    1. set mandatory env vars 
+    1. create wheel package
+        ```
+        cd booksyAPI
+        python setup.py bdist_wheel
+        ```
+    3. install wheel package
+        ```
+        pip install dist/booksyAPI-1.0-py3-none-any.whl
+        ```
+    3. Start Server
+        ```
+        waitress-serve --port=5000 booksyAPI:app
+        ```
 
 ---
 # Development
