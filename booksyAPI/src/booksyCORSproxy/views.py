@@ -3,7 +3,7 @@ import requests
 from flask import request
 from flask_api import status
 from werkzeug.middleware.proxy_fix import ProxyFix
-from booksyAPI import app, logger
+from booksyCORSproxy import app, logger
 import os
 import json
 
@@ -15,7 +15,7 @@ def index():
 @app.route('/booksyreviews', methods=["GET"])
 async def booksyreviews():
     # production:
-    json_data =  await get_reviews() if os.getenv("DEBUG_LOCALONLY", "False") == "False" else await get_reviews_development()
+    json_data =  await get_reviews() if os.getenv("DEBUG_EXAMPLEREVIEWS", "false").lower() == "false" else await get_reviews_development()
     if json_data[0] is True:
         return json_data[1],  status.HTTP_200_OK
         # -----CORS solution option 2 of 2-----
@@ -46,15 +46,20 @@ async def get_reviews():
         logger.warning('Error retreiving reviews from Booksy, 6-digit business refrence code may be wrong ')
         return False, f"Error retreiving reviews, 6-digit business refrence code may be wrong - Remote status code:{r.status_code}"
 
+# development/debug endpoint - provide your own reviews so you arent constantly requesting from booksy and either hitting a rate limit or alerting them 
 async def get_reviews_development():
-    f = open("./sample/samplereviews.txt", 'r')  # regex find [^\x00-\x7F]+ to remove unicode
-    contents = json.loads(json.dumps(f.read()))
+    try:
+        f = open("./sample/samplereviews.txt", 'r')  
+        contents = json.loads(json.dumps(f.read())) # to remove unicode use regex [^\x00-\x7F]+ 
+        f.close()
+    except:
+        contents = "Sory file doesnt exist"
     return True, contents
 
 if __name__ == '__main__':
-    if os.getenv("booksyAPI_DEBUGSERVER", "Flask") == "Waitress":
+    if os.getenv("booksyAPI_DEBUGSERVER", "Flask").lower() == "gunicorn":
         from waitress import serve
         serve(app, host="0.0.0.0", port=5000)
     else:
         import asyncio
-        asyncio.run(app.run(debug=os.getenv("FLASK_DEBUG", False)))
+        asyncio.run(app.run(debug= True if os.getenv("FLASK_DEBUG", "false").lower() == "true" else False) )

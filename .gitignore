@@ -1,6 +1,11 @@
+.gitignore
 booksyAPI/*
-!booksyAPI/setup.py
-!booksyAPI/booksyAPI
-booksyAPI/booksyAPI/*
-!booksyAPI/booksyAPI/__init__.py
-!booksyAPI/booksyAPI/views.py
+!booksyAPI/pyproject.toml
+!booksyAPI/LICENSE
+!booksyAPI/src
+booksyAPI/src/*
+!booksyAPI/src/booksyCORSproxy
+!booksyAPI/src/booksyCORSproxy/__init__.py
+!booksyAPI/src/booksyCORSproxy/views.py
+testenv
+test2

@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "booksyCORSproxy"
+version = "1.1"
+authors = [{ name="Arthur Tapper", email="ArtyTapper@gmail.com" },]
+description = "Circumnavigate booksy's CORS policy to retrieve and display booksy reviews on your website by providing a local REST API endpoint (domain/api/booksyreviews) "
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = ['requests', 'Flask[async]', 'flask_cors', 'flask_api', 'gunicorn']
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: GNU GPLv3",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/RT-Tap/booksyCORSproxy"
+
+#[tool.setuptools.packages.find]
+# All the following settings are optional:
+#where = ["booksyAPI"] 
+#include = ["mypackage*"]  # ["*"] by default
+

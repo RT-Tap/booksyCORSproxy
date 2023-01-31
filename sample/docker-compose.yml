@@ -19,14 +19,13 @@ services:
   cb-api-wsgi:
     container_name: booksyReviewsAPI
     build:
-      context: ../
-      dockerfile: sample/Dockerfile
-      network: host # needed for pip installl - https://docs.docker.com/compose/compose-file/compose-file-v3/#network
+      context: https://github.com/RT-Tap/booksyCORSproxy
+      network: host # needed for pip installl 
+      args:
+        SECRET_KEY: SUPERSECRETKEY
     restart: always
     env_file:
       - booksyProxy.env
-    #environment: # instead of using a file can list all env vars here
-    #  - name=value
     volumes:  # not really needed just an example of the JSON to be expected or for working offline
       - "./ex-JSON/samplereviews.txt:/usr/src/app/samplereviews.txt"
     networks:

@@ -33,17 +33,34 @@ This is not what is going on in the `Quickstart production docker-compose exampl
 
 ## Environment Variables
 ### production / mandatory
-- BOOKSYAPI_BUSREF:  The 6 digit ID of the business you want reviews for, See "Booksy Business Refrence/ID Number" section below
-- BOOKSYAPI_PROXY: True/False - Will this be behind a reverse proxy?
-- SERVER_NAME:  URL endpoint of website you intend to use this on eg. "booksyAPItest.com" - used to set our own CORS policy during production
 - SECRET_KEY: used for encryption NEEDS to be changed to a random 24 byte string - can use following command to generate a random key : python -c 'import secrets; print(secrets.token_hex())'
+    - ways to declare:
+    1. docker build argument `docker build --build-arg SECRET_KEY=xxSUPERSECRETxx https://github.com/RT-Tap/booksyCORSproxy -t booksyCORSproxy`
+    2. environment variable  - docker-compose, sysem wide, etc.
+
+- BOOKSYAPI_BUSREF: (default:None-Needs to be set) The 6 digit ID of the business you want reviews for, See "Booksy Business Refrence/ID Number" section below
+- BOOKSYAPI_PROXY: (True/False - default: false)  - Will this be behind a reverse proxy?
+- SERVER_NAME: (default:None-Needs to be set ) URL endpoint of website you intend to use this on eg. "booksyAPItest.com" - used to set our own CORS policy during production
+- TLS: (TRUE/FALSE/mutual-default:false)
+
+    - true = what you think of when you think TLS/HTTPS, will use certificate & key passed in from a rootCA (letsencrypt)
+    - mutual = zero confidence system where the server validates the client as well, the only difference here is you need to provide the rootCA cert
+    - in addition you will need to provide
+        - TLS_CERT: (default: docker secret named site.crt) location of signed certificate
+        - TLS_KEY: (default: docker secret named site.key) location of private key
+        ROOTCA_CERT: (default: docker secret named root.crt) only required for mTLS, location of the root CA certificate
 
 ### development / optional
-- ROOT_PATH: default=boorev_api - Unless you are integrating with another flask app you dont need to worry about this
-- FLASK_DEBUG: True/False - If you are in development True, production False - IMPORTANT! Used to set our own CORS policy
-- booksyAPI_DEBUGSERVER: Flask/Waitress (optional, defaults: development=Flask production=waitress)
-- DEBUG_LOCALONLY: True/Flase - when set to true will ONLY retrieve local example reviews (located in sample/samplereviews.txt ) usefull if you plan on working in a live environment constantly reloading/refreshing and therefore repeatedly requesting the same data from booksy but don't want to hit their request limits/raise suspicion
-- FLASK_APP: booksyAPI - will most likely never change, used to let know server what application to run
+- ROOT_PATH: (optional-default:boorev_api) - Unless you are integrating with another flask app you dont need to worry about this
+- FLASK_DEBUG: (optional-True/False default:true) - If you are in development True, production False - IMPORTANT! Used to set our own CORS policy
+- booksyAPI_DEBUGSERVER: (optional-Flask/gunicorn default: development=Flask production=gunicorn)
+- DEBUG_EXAMPLEREVIEWS: (optional-True/Flase default:false) - when set to true will ONLY retrieve local example reviews (located in sample/samplereviews.txt ) usefull if you plan on working in a live environment constantly reloading/refreshing and therefore repeatedly requesting the same data from booksy but don't want to hit their request limits/raise suspicion
+- FLASK_APP: (optional- default: booksyAPI) - will most likely never change, you may break package if changed, used to let know server what application to run
+- SERVERCONFIG_BINDADDR: (optional-default:0.0.0.0) - what interface/address to bind to - local only: 127.0.0.1 , all interfaces: 0.0.0.0
+- SERVERCONFIG_PORT: (optional-default:5000) - what port to work on
+- SERVERCONFIG_WORKERS: (optional- default:20) - amount of worker threads
+- SERVERCONFIG_ACCESSLOG: (not fully implemented) (optional - default: stdout) - access log location- will log to stdout but can set to file or syslog ref: https://docs.gunicorn.org/en/20.1.0/settings.html#syslog
+- any additional command line argument settings gunicorn takes (https://docs.gunicorn.org/en/20.1.0/settings.html) can simple be appended to the environment variable `GUNICORN_CMD_ARGS`
 
 #### How/Where do I set environment variables?
 >|  Linux/iOS: |  Windows powershell: |   Windows cmd: |  (ana)conda: |  Docker: |
@@ -112,22 +129,22 @@ Exposes following endpoint where you can GET reviews
         ```
     3. start server
         ```
-        waitress-serve --port=5000 booksyAPI:app 
+        gunicorn booksyCORSproxy:app 
         ```
 - ## Wheel package
     1. set mandatory env vars 
     1. create wheel package
         ```
         cd booksyAPI
-        python setup.py bdist_wheel
+        python -m build
         ```
     3. install wheel package
         ```
-        pip install dist/booksyAPI-1.0-py3-none-any.whl
+        pip install dist/booksyCORSproxy-1.1-py3-none-any.whl
         ```
     3. Start Server
         ```
-        waitress-serve --port=5000 booksyAPI:app
+        gunicorn booksyCORSproxy:app
         ```
 
 ---
