@@ -3,19 +3,19 @@ import requests
 from flask import request
 from flask_api import status
 from werkzeug.middleware.proxy_fix import ProxyFix
-from booksyCORSproxy import app, logger
 import os
 import json
+from booksyCORSproxy import app, logger
 
 @app.route('/')
 def index():
     logger.info(f'{request.remote_addr} tried accessing root of API')
     return "Sorry nothing here."
 
-@app.route('/booksyreviews', methods=["GET"])
-async def booksyreviews():
+@app.route('/booksyreviews/<businessID>', methods=["GET"])
+async def booksyreviews(businessID):
     # production:
-    json_data =  await get_reviews() if os.getenv("DEBUG_EXAMPLEREVIEWS", "false").lower() == "false" else await get_reviews_development()
+    json_data =  await get_reviews(businessID) if os.getenv("DEBUG_USEEXAMPLEREVIEWS", "false").lower() == "false" else await get_reviews_development()
     if json_data[0] is True:
         return json_data[1],  status.HTTP_200_OK
         # -----CORS solution option 2 of 2-----
@@ -28,9 +28,9 @@ async def booksyreviews():
         else:
             return json_data[1], status.HTTP_503_SERVICE_UNAVAILABLE
 
-async def get_reviews():
+async def get_reviews(businessID):
     try:
-        requestURL = 'https://us.booksy.com/api/us/2/customer_api/businesses/' + os.getenv('BOOKSYAPI_BUSREF') + '/reviews/?reviews_page=1&reviews_per_page=20'
+        requestURL = 'https://us.booksy.com/api/us/2/customer_api/businesses/' + str(businessID) + '/reviews/?reviews_page=1&reviews_per_page=20'
         r = requests.get(requestURL, headers={'Accept':'application/json', 'x-api-key':'web-e3d812bf-d7a2-445d-ab38-55589ae6a121'})
     except requests.exceptions.RequestException as e:
         logger.warning(f'Error retrieving review data from Booksy\nError: {e}')
@@ -55,11 +55,3 @@ async def get_reviews_development():
     except:
         contents = "Sory file doesnt exist"
     return True, contents
-
-if __name__ == '__main__':
-    if os.getenv("booksyAPI_DEBUGSERVER", "Flask").lower() == "gunicorn":
-        from waitress import serve
-        serve(app, host="0.0.0.0", port=5000)
-    else:
-        import asyncio
-        asyncio.run(app.run(debug= True if os.getenv("FLASK_DEBUG", "false").lower() == "true" else False) )

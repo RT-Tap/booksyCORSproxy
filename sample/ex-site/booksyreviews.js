@@ -1,8 +1,8 @@
 const getReviews = async() => {
     //development
-    //const response = await fetch('http://127.0.0.1:5000/booksyreviews', {method: 'GET',})
+    //const response = await fetch('http://127.0.0.1:5000/booksyreviews/463431', {method: 'GET',})
     //production
-    const response = await fetch('https://booksyAPItest.com/api/booksyreviews', {method: 'GET',}) 
+    const response = await fetch('https://booksyAPItest.com/api/booksyreviews/463431', {method: 'GET',}) 
     const data = await response.json()
 
     const revRef = document.querySelector(".booksy-testimonials")

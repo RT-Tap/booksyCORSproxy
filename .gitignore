@@ -6,6 +6,7 @@ booksyAPI/*
 booksyAPI/src/*
 !booksyAPI/src/booksyCORSproxy
 !booksyAPI/src/booksyCORSproxy/__init__.py
+!booksyAPI/src/booksyCORSproxy/__main__.py
 !booksyAPI/src/booksyCORSproxy/views.py
 testenv
 test2
