@@ -19,7 +19,7 @@ services:
   cb-api-wsgi:
     container_name: booksyReviewsAPI
     build:
-      context: https://github.com/RT-Tap/booksyCORSproxy
+      context: https://github.com/RT-Tap/booksyCORSproxy.git#main
       network: host # needed for pip installl 
       args:
         SECRET_KEY: SUPERSECRETKEY
