@@ -12,6 +12,11 @@ def index():
     logger.info(f'{request.remote_addr} tried accessing root of API')
     return "Sorry nothing here."
 
+@app.route('healthcheck', methods=["GET"])
+async def dockerhealthcheck():
+    logger.debug("Docker healthcheck requested.")
+    return "still running smooth", status.HTTP_204_NO_CONTENT
+
 @app.route('/booksyreviews/<businessID>', methods=["GET"])
 async def booksyreviews(businessID):
     # production:

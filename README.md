@@ -7,6 +7,9 @@ For most of these "production ready" examples your encpoint for retreiving the r
 However the package is set up so that in the case this is used/integrated with another flask app this application will be behind the root path "/borev_api" therefore your reviews will be found under
 > localhost:5000/boorev_api/booksyreviews/\<businessID>  
 
+Also has a healthcheck endpoint for use with docker and or loadbalancers/reverse proxies.
+> localhost:5000/healthcheck
+
 This is not what is going on in the `Quickstart production docker-compose example`, the reverse proxy takes care of of routing the /api path in that situation (mechanics of reverse proxy routing can be seen under sample/ex-conf/httpd-vhosts.conf).  More information about dispatching under different root path:  https://flask.palletsprojects.com/en/2.1.x/patterns/appdispatch/#dispatch-by-path
 
 ---
@@ -90,7 +93,7 @@ This is not what is going on in the `Quickstart production docker-compose exampl
 >    ```
 >4. > booksyAPItest.com  
 
-### **NOTE:** you must create/get your own ssl cert and use it in the reverse proxy container. This sample uses a signed ssl cert that is publicly available and not for your domain 
+### **NOTE:** you must create/get your own ssl cert and use it in the reverse proxy container. This sample uses a self signed ssl cert that is publicly available and not for your domain 
 
 ---
 
