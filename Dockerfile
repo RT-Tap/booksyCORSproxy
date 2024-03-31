@@ -1,4 +1,4 @@
-FROM python:3.10-alpine3.15
+FROM python:3.10-alpine
 RUN apk update && apk add python3-dev gcc libc-dev build-base
 WORKDIR /usr/src/app
 COPY ./booksyAPI ./booksyCORSproxy
