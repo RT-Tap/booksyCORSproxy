@@ -1,6 +1,5 @@
 FROM python:3.10-alpine
 RUN apk update && apk add python3-dev gcc libc-dev build-base
-#RUN ls -la /usr/src && chmod 0777 /usr/src
 WORKDIR /usr/src/app
 COPY --chmod=777 ./booksyAPI ./booksyCORSproxy
 RUN pip install -e booksyCORSproxy
