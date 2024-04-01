@@ -1,12 +1,5 @@
 .gitignore
-booksyAPI/*
-!booksyAPI/pyproject.toml
-!booksyAPI/LICENSE
-!booksyAPI/src
-booksyAPI/src/*
-!booksyAPI/src/booksyCORSproxy
-!booksyAPI/src/booksyCORSproxy/__init__.py
-!booksyAPI/src/booksyCORSproxy/__main__.py
-!booksyAPI/src/booksyCORSproxy/views.py
+booksyCORSproxy/src/booksyCORSproxy.egg-info/
+booksyCORSproxy/src/booksyCORSproxy/__pycache__/
 testenv
 test2

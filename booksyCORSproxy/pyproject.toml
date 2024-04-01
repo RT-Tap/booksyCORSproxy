@@ -8,7 +8,8 @@ authors = [{ name="Arthur Tapper", email="ArtyTapper@gmail.com" },]
 description = "Circumnavigate booksy's CORS policy to retrieve and display booksy reviews on your website by providing a local REST API endpoint (domain/api/booksyreviews) "
 readme = "README.md"
 requires-python = ">=3.7"
-dependencies = ['requests', 'Flask[async]', 'flask_cors', 'flask_api', 'gunicorn']
+# !! NOTE: (03/13/2024): need to use flask api development branch until new release as current release relies on previously depreciated code that was removed with werkzeug3.0 - https://werkzeug.palletsprojects.com/en/3.0.x/changes/#version-3-0-0
+dependencies = ['requests', 'Flask[async]', 'flask_cors', 'gunicorn', 'flask_api @ git+https://github.com/flask-api/flask-api@develop']
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: GNU GPLv3",
